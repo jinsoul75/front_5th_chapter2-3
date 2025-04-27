@@ -1,4 +1,4 @@
-// src/pages/postsManagerApi.ts
+import { Comment, NewComment, NewPost, Post } from "./postsManagerTypes"
 
 // 게시물 목록 가져오기
 export async function fetchPostsApi(limit: number, skip: number) {
@@ -31,7 +31,7 @@ export async function fetchPostsByTagApi(tag: string) {
 }
 
 // 게시물 추가
-export async function addPostApi(newPost) {
+export async function addPostApi(newPost: NewPost) {
   const response = await fetch("/api/posts/add", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -41,7 +41,7 @@ export async function addPostApi(newPost) {
 }
 
 // 게시물 수정
-export async function updatePostApi(post) {
+export async function updatePostApi(post: Post) {
   const response = await fetch(`/api/posts/${post.id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -61,7 +61,7 @@ export async function fetchCommentsApi(postId: number) {
   return response.json()
 }
 
-export async function addCommentApi(newComment) {
+export async function addCommentApi(newComment: NewComment) {
   const response = await fetch("/api/comments/add", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -70,7 +70,7 @@ export async function addCommentApi(newComment) {
   return response.json()
 }
 
-export async function updateCommentApi(comment) {
+export async function updateCommentApi(comment: Comment) {
   const response = await fetch(`/api/comments/${comment.id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
