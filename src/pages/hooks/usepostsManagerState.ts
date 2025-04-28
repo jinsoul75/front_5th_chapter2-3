@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { Comment, NewComment, Tag, User } from "./postsManagerTypes"
-import { NewPost } from "./postsManagerTypes"
-import { Post } from "./postsManagerTypes"
+import { Comment, NewComment, Tag, User } from "../types/postsManagerTypes"
+import { NewPost } from "../types/postsManagerTypes"
+import { Post } from "../types/postsManagerTypes"
 import {
   fetchPostsApi,
   fetchUsersApi,
@@ -18,7 +18,7 @@ import {
   deleteCommentApi,
   likeCommentApi,
   fetchUserDetailApi,
-} from "./postsManagerApi"
+} from "../api/postsManagerApi"
 
 export const usePostsManagerState = () => {
   const navigate = useNavigate()

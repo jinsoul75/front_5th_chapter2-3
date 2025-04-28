@@ -1,4 +1,4 @@
-import { Comment, NewComment, NewPost, Post } from "./postsManagerTypes"
+import { Comment, NewComment, NewPost, Post } from "../types/postsManagerTypes"
 
 // 게시물 목록 가져오기
 export async function fetchPostsApi(limit: number, skip: number) {
