@@ -1,15 +1,20 @@
-import { DialogHeader, DialogTitle, Input } from "../../../shared/ui"
+import { MODAL_KEY } from "../../../shared/config"
+import { useModalStore } from "../../../shared/store"
+import { DialogHeader, DialogTitle, Input, Textarea, Button, DialogContent, Dialog } from "../../../shared/ui"
+import { Post } from "../../types/postsManagerTypes"
 
-import { Button } from "../../../shared/ui"
+interface PostAddDialogProps {
+  newPost: Post
+  setNewPost: (newPost: Post) => void
+  addPost: () => void
+}
 
-import { DialogContent } from "../../../shared/ui"
+export const PostAddDialog = ({ newPost, setNewPost, addPost }: PostAddDialogProps) => {
+  const { openedModal, closeModal } = useModalStore()
 
-import { Dialog } from "../../../shared/ui"
-
-export const PostAddDialog = () => {
   return (
     // {/* 게시물 추가 대화상자  entity/posts/ui/post-add-dialog.tsx*/}
-    <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
+    <Dialog open={openedModal === MODAL_KEY.ADD} onOpenChange={closeModal}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>새 게시물 추가</DialogTitle>
