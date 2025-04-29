@@ -1,4 +1,4 @@
-import { PostManagerLayout, PostHeader, PostList, PostAddDialog } from "./ui/post"
+import { PostManagerLayout, PostHeader, PostList, PostAddDialog, PostEditDialog } from "./ui/post"
 import { UserDetailDialog } from "./ui/user/UserDetailDialog"
 
 const PostsManager = () => {
@@ -7,6 +7,7 @@ const PostsManager = () => {
       <PostList />
       <PostAddDialog />
       <UserDetailDialog />
+      <PostEditDialog />
     </PostManagerLayout>
   )
 }

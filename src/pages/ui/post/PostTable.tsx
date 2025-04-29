@@ -11,11 +11,11 @@ import { MessageSquare, ThumbsDown, ThumbsUp } from "lucide-react"
 import { TableBody, TableCell } from "../../../shared/ui"
 
 import { Table, TableHead, TableHeader, TableRow } from "../../../shared/ui"
-import { Post, User } from "../../types/postsManagerTypes"
+import { Post } from "../../types/postsManagerTypes"
 import { highlightText } from "../../utils/highlightText"
 import { useModalStore } from "../../../shared/store"
-import { useUserDetail } from "../../hooks/queries"
-import { useState } from "react"
+import { useDeletePost } from "../../hooks/queries"
+
 import { MODAL_KEY } from "../../../shared/config"
 
 interface PostTableProps {
@@ -24,25 +24,9 @@ interface PostTableProps {
   selectedTag: string
   setSelectedTag: (value: string) => void
   updateURL: () => void
-  // openUserModal: (user: User) => void
-  // openPostDetail: (post: Post) => void
-  // deletePost: (id: number) => void
-  // setSelectedPost: (post: Post) => void
-  // setShowEditDialog: (value: boolean) => void
 }
 
-export const PostTable = ({
-  posts,
-  searchQuery,
-  selectedTag,
-  setSelectedTag,
-  updateURL,
-  // openUserModal,
-  // openPostDetail,
-  // deletePost,
-  // setSelectedPost,
-  // setShowEditDialog,
-}: PostTableProps) => {
+export const PostTable = ({ posts, searchQuery, selectedTag, setSelectedTag, updateURL }: PostTableProps) => {
   const { openModal } = useModalStore()
 
   const handleOpenUserModal = (userId: number) => {
@@ -52,6 +36,12 @@ export const PostTable = ({
   const handleOpenPostDetail = (post: Post) => {
     openModal(MODAL_KEY.POST_DETAIL, { post })
   }
+
+  const handleOpenEditDialog = (post: Post) => {
+    openModal(MODAL_KEY.EDIT, { post })
+  }
+
+  const { mutate: deletePost } = useDeletePost()
 
   return (
     <Table>
@@ -118,8 +108,7 @@ export const PostTable = ({
                   variant="ghost"
                   size="sm"
                   onClick={() => {
-                    setSelectedPost(post)
-                    setShowEditDialog(true)
+                    handleOpenEditDialog(post)
                   }}
                 >
                   <Edit2 className="w-4 h-4" />

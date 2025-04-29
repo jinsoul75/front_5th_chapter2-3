@@ -38,16 +38,13 @@ export const usePosts = ({
     ],
   })
 
-  console.log("🚀 ~ result:", result)
   const [dataResult, userResult] = result
-  console.log("🚀 ~ userResult:", userResult)
-  console.log("🚀 ~ dataResult:", dataResult)
 
   const postsWithUser = dataResult.data?.posts.map((post: Post) => ({
     ...post,
     user: userResult.data?.users.find((user: User) => user.id === post.userId),
   }))
-  console.log("🚀 ~ postsWithUser ~ postsWithUser:", postsWithUser)
+
   return {
     data: postsWithUser,
     isLoading: dataResult.isLoading || userResult.isLoading,
@@ -82,5 +79,17 @@ export const useUserDetail = ({ userId }: { userId: number }) => {
     queryKey: ["users", userId],
     queryFn: () => usersApi.fetchUserDetail(userId),
     enabled: !!userId,
+  })
+}
+
+export const useDeletePost = () => {
+  return useMutation({
+    mutationFn: (postId: number) => postsApi.deletePost(postId),
+  })
+}
+
+export const useUpdatePost = () => {
+  return useMutation({
+    mutationFn: (post: Post) => postsApi.updatePost(post),
   })
 }
