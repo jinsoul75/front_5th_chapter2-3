@@ -1,16 +1,19 @@
+import { useState } from "react"
 import { MODAL_KEY } from "../../../shared/config"
 import { useModalStore } from "../../../shared/store"
 import { DialogHeader, DialogTitle, Input, Textarea, Button, DialogContent, Dialog } from "../../../shared/ui"
-import { Post } from "../../types/postsManagerTypes"
+import { NewPost } from "../../types/postsManagerTypes"
+import { useAddPost } from "../../hooks/queries"
 
-interface PostAddDialogProps {
-  newPost: Post
-  setNewPost: (newPost: Post) => void
-  addPost: () => void
-}
+export const PostAddDialog = () => {
+  const [newPost, setNewPost] = useState<NewPost>({
+    title: "",
+    body: "",
+    userId: 0,
+  })
 
-export const PostAddDialog = ({ newPost, setNewPost, addPost }: PostAddDialogProps) => {
   const { openedModal, closeModal } = useModalStore()
+  const { mutate: addPost } = useAddPost()
 
   return (
     // {/* 게시물 추가 대화상자  entity/posts/ui/post-add-dialog.tsx*/}
@@ -37,7 +40,7 @@ export const PostAddDialog = ({ newPost, setNewPost, addPost }: PostAddDialogPro
             value={newPost.userId}
             onChange={(e) => setNewPost({ ...newPost, userId: Number(e.target.value) })}
           />
-          <Button onClick={addPost}>게시물 추가</Button>
+          <Button onClick={() => addPost(newPost)}>게시물 추가</Button>
         </div>
       </DialogContent>
     </Dialog>
