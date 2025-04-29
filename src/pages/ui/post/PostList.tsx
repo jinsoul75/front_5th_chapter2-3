@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { PostSearch } from "./PostSearch"
-import { usePosts, usePostsByTag, useSearchPosts, useTags, useUsers } from "../../hooks/queries"
+import { usePosts, useTags } from "../../hooks/queries"
 import { Loading } from "../common/Loading"
 import { PostTable } from "./PostTable"
 import { useNavigate } from "react-router-dom"
@@ -19,13 +19,7 @@ export const PostList = () => {
 
   const { data: tags } = useTags()
 
-  const { data: posts, isLoading } = usePosts({ skip, limit, sortBy, sortOrder })
-
-  const { data: searchPosts, refetch: onSearch } = useSearchPosts({ searchQuery })
-
-  const { data: postsByTag } = usePostsByTag({ tag: selectedTag })
-
-  const { data: users } = useUsers()
+  const { data: posts, isLoading, refetch: onSearch } = usePosts({ skip, limit, sortBy, sortOrder })
 
   const updateURL = () => {
     const params = new URLSearchParams()
@@ -60,7 +54,7 @@ export const PostList = () => {
         <Loading />
       ) : (
         <PostTable
-          posts={posts?.posts}
+          posts={posts}
           searchQuery={searchQuery}
           selectedTag={selectedTag}
           setSelectedTag={setSelectedTag}

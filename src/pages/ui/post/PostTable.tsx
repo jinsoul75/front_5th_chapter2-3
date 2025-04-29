@@ -48,7 +48,11 @@ export const PostTable = ({
   const handleOpenUserModal = (userId: number) => {
     openModal(MODAL_KEY.USER, { userId })
   }
-  
+
+  const handleOpenPostDetail = (post: Post) => {
+    openModal(MODAL_KEY.POST_DETAIL, { post })
+  }
+
   return (
     <Table>
       <TableHeader>
@@ -107,7 +111,7 @@ export const PostTable = ({
             </TableCell>
             <TableCell>
               <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" onClick={() => openPostDetail(post)}>
+                <Button variant="ghost" size="sm" onClick={() => handleOpenPostDetail(post)}>
                   <MessageSquare className="w-4 h-4" />
                 </Button>
                 <Button

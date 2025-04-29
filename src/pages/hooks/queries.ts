@@ -1,38 +1,60 @@
-import { useQuery, useMutation } from "@tanstack/react-query"
+import { useQuery, useMutation, useQueries } from "@tanstack/react-query"
 import { postsApi, usersApi } from "../api/postsManagerApi"
-import { NewPost } from "../types/postsManagerTypes"
+import { NewPost, Post, User } from "../types/postsManagerTypes"
 
 export const usePosts = ({
   skip,
   limit,
   sortBy,
   sortOrder,
+  searchQuery,
+  tag,
 }: {
   skip: number
   limit: number
   sortBy: string
   sortOrder: string
+  searchQuery?: string
+  tag?: string
 }) => {
-  return useQuery({
-    queryKey: ["posts", limit, skip, sortBy, sortOrder],
-    queryFn: () => postsApi.fetchPosts(limit, skip, sortBy, sortOrder),
+  const result = useQueries({
+    queries: [
+      {
+        queryKey: ["posts", limit, skip, sortBy, sortOrder],
+        queryFn: () => {
+          if (searchQuery) {
+            return postsApi.searchPosts(searchQuery)
+          }
+          if (tag) {
+            return postsApi.fetchPostsByTag(tag)
+          }
+          return postsApi.fetchPosts(limit, skip, sortBy, sortOrder)
+        },
+      },
+      {
+        queryKey: ["users"],
+        queryFn: () => usersApi.fetchUsers(),
+      },
+    ],
   })
-}
 
-export const useSearchPosts = ({ searchQuery }: { searchQuery: string }) => {
-  return useQuery({
-    queryKey: ["posts"],
-    queryFn: () => postsApi.searchPosts(searchQuery),
-    enabled: !!searchQuery,
-  })
-}
+  console.log("🚀 ~ result:", result)
+  const [dataResult, userResult] = result
+  console.log("🚀 ~ userResult:", userResult)
+  console.log("🚀 ~ dataResult:", dataResult)
 
-export const usePostsByTag = ({ tag }: { tag: string }) => {
-  return useQuery({
-    queryKey: ["posts", tag],
-    queryFn: () => postsApi.fetchPostsByTag(tag),
-    enabled: !!tag,
-  })
+  const postsWithUser = dataResult.data?.posts.map((post: Post) => ({
+    ...post,
+    user: userResult.data?.users.find((user: User) => user.id === post.userId),
+  }))
+  console.log("🚀 ~ postsWithUser ~ postsWithUser:", postsWithUser)
+  return {
+    data: postsWithUser,
+    isLoading: dataResult.isLoading || userResult.isLoading,
+    refetch: () => {
+      return Promise.all([dataResult.refetch(), userResult.refetch()])
+    },
+  }
 }
 
 export const useAddPost = () => {
