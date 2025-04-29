@@ -3,9 +3,12 @@ import { CommentAddButton } from "./CommentAddButton"
 import { CommentDeleteButton } from "./CommentDeleteButton"
 import { CommentEditButton } from "./CommentEditButton"
 import { CommentLikeButton } from "./CommentLikeButton"
+import { highlightText } from "../../utils/highlightText"
+import { useComments } from "../../hooks/queries"
+import { Comment } from "../../types/postsManagerTypes"
 
-export const Comments = () => {
-  const { isLoading, comments, error } = useComments()
+export const Comments = ({ postId, searchQuery }: { postId: number; searchQuery: string }) => {
+  const { isLoading, data: comments, error } = useComments({ postId, searchQuery })
 
   if (isLoading) {
     return <Loading />
@@ -22,7 +25,7 @@ export const Comments = () => {
         <CommentAddButton />
       </div>
       <div className="space-y-1">
-        {comments[postId]?.map((comment) => (
+        {comments[postId]?.map((comment: Comment) => (
           <div key={comment.id} className="flex items-center justify-between text-sm border-b pb-1">
             <div className="flex items-center space-x-2 overflow-hidden">
               <span className="font-medium truncate">{comment.user.username}:</span>

@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueries } from "@tanstack/react-query"
-import { postsApi, usersApi } from "../api/postsManagerApi"
+import { commentsApi, postsApi, usersApi } from "../api/postsManagerApi"
 import { NewPost, Post, User } from "../types/postsManagerTypes"
 
 export const usePosts = ({
@@ -91,5 +91,12 @@ export const useDeletePost = () => {
 export const useUpdatePost = () => {
   return useMutation({
     mutationFn: (post: Post) => postsApi.updatePost(post),
+  })
+}
+
+export const useComments = ({ postId, searchQuery }: { postId: number; searchQuery: string }) => {
+  return useQuery({
+    queryKey: ["comments", postId, searchQuery],
+    queryFn: () => commentsApi.fetchComments(postId),
   })
 }

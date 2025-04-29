@@ -34,7 +34,7 @@ export const PostTable = ({ posts, searchQuery, selectedTag, setSelectedTag, upd
   }
 
   const handleOpenPostDetail = (post: Post) => {
-    openModal(MODAL_KEY.POST_DETAIL, { post })
+    openModal(MODAL_KEY.POST_DETAIL, { post, searchQuery })
   }
 
   const handleOpenEditDialog = (post: Post) => {

@@ -1,3 +1,4 @@
+import { Plus } from "lucide-react"
 import { Button } from "../../../shared/ui"
 
 export const CommentAddButton = () => {
