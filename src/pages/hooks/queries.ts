@@ -54,3 +54,11 @@ export const useUsers = () => {
     queryFn: () => usersApi.fetchUsers(),
   })
 }
+
+export const useUserDetail = ({ userId }: { userId: number }) => {
+  return useQuery({
+    queryKey: ["users", userId],
+    queryFn: () => usersApi.fetchUserDetail(userId),
+    enabled: !!userId,
+  })
+}

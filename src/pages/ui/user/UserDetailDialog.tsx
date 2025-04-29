@@ -1,11 +1,20 @@
+import { MODAL_KEY } from "../../../shared/config"
+import { useModalStore } from "../../../shared/store"
 import { DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui"
 
 import { Dialog } from "../../../shared/ui"
+import { useUserDetail } from "../../hooks/queries"
 
 export const UserDetailDialog = () => {
+  const { openedModal, closeModal, modalProps } = useModalStore()
+
+  const userId = modalProps?.userId as number
+
+  const { data: selectedUser } = useUserDetail({ userId })
+
   return (
     // {/* 사용자 모달  entity/users/ui/user-modal.tsx*/}
-    <Dialog open={showUserModal} onOpenChange={setShowUserModal}>
+    <Dialog open={openedModal === MODAL_KEY.USER} onOpenChange={closeModal}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>사용자 정보</DialogTitle>

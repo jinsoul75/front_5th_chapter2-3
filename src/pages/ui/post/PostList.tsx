@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { PostSearch } from "./PostSearch"
-import { usePosts, usePostsByTag, usePostsWithUsers, useSearchPosts, useTags, useUsers } from "../../hooks/queries"
+import { usePosts, usePostsByTag, useSearchPosts, useTags, useUsers } from "../../hooks/queries"
 import { Loading } from "../common/Loading"
 import { PostTable } from "./PostTable"
 import { useNavigate } from "react-router-dom"

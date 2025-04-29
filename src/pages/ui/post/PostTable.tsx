@@ -13,6 +13,10 @@ import { TableBody, TableCell } from "../../../shared/ui"
 import { Table, TableHead, TableHeader, TableRow } from "../../../shared/ui"
 import { Post, User } from "../../types/postsManagerTypes"
 import { highlightText } from "../../utils/highlightText"
+import { useModalStore } from "../../../shared/store"
+import { useUserDetail } from "../../hooks/queries"
+import { useState } from "react"
+import { MODAL_KEY } from "../../../shared/config"
 
 interface PostTableProps {
   posts: Post[]
@@ -39,6 +43,12 @@ export const PostTable = ({
   // setSelectedPost,
   // setShowEditDialog,
 }: PostTableProps) => {
+  const { openModal } = useModalStore()
+
+  const handleOpenUserModal = (userId: number) => {
+    openModal(MODAL_KEY.USER, { userId })
+  }
+  
   return (
     <Table>
       <TableHeader>
@@ -79,7 +89,10 @@ export const PostTable = ({
               </div>
             </TableCell>
             <TableCell>
-              <div className="flex items-center space-x-2 cursor-pointer" onClick={() => openUserModal(post.author)}>
+              <div
+                className="flex items-center space-x-2 cursor-pointer"
+                onClick={() => handleOpenUserModal(post.userId || 0)}
+              >
                 <img src={post.author?.image} alt={post.author?.username} className="w-8 h-8 rounded-full" />
                 <span>{post.author?.username}</span>
               </div>
