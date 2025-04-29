@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueries } from "@tanstack/react-query"
 import { commentsApi, postsApi, usersApi } from "../api/postsManagerApi"
-import { NewPost, Post, User } from "../types/postsManagerTypes"
+import { Comment, NewComment, NewPost, Post, User } from "../types/postsManagerTypes"
 
 export const usePosts = ({
   skip,
@@ -94,9 +94,34 @@ export const useUpdatePost = () => {
   })
 }
 
-export const useComments = ({ postId, searchQuery }: { postId: number; searchQuery: string }) => {
+export const useComments = ({ postId }: { postId: number }) => {
   return useQuery({
-    queryKey: ["comments", postId, searchQuery],
+    queryKey: ["comments", postId],
     queryFn: () => commentsApi.fetchComments(postId),
+  })
+}
+
+export const useLikeComment = () => {
+  return useMutation({
+    mutationFn: ({ commentId, likes }: { commentId: number; likes: number }) =>
+      commentsApi.likeComment(commentId, likes + 1),
+  })
+}
+
+export const useAddComment = () => {
+  return useMutation({
+    mutationFn: (newComment: NewComment) => commentsApi.addComment(newComment),
+  })
+}
+
+export const useUpdateComment = () => {
+  return useMutation({
+    mutationFn: (comment: Comment) => commentsApi.updateComment(comment),
+  })
+}
+
+export const useDeleteComment = () => {
+  return useMutation({
+    mutationFn: (commentId: number) => commentsApi.deleteComment(commentId),
   })
 }

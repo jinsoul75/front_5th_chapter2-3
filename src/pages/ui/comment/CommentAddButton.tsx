@@ -1,13 +1,16 @@
 import { Plus } from "lucide-react"
 import { Button } from "../../../shared/ui"
+import { useModalStore } from "../../../shared/store"
+import { MODAL_KEY } from "../../../shared/config"
 
-export const CommentAddButton = () => {
+export const CommentAddButton = ({ postId }: { postId: number }) => {
+  const { openModal } = useModalStore()
+
   return (
     <Button
       size="sm"
       onClick={() => {
-        setNewComment((prev) => ({ ...prev, postId }))
-        setShowAddCommentDialog(true)
+        openModal(MODAL_KEY.ADD, { postId })
       }}
     >
       <Plus className="w-3 h-3 mr-1" />

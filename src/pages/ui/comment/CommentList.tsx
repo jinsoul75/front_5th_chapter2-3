@@ -8,7 +8,7 @@ import { useComments } from "../../hooks/queries"
 import { Comment } from "../../types/postsManagerTypes"
 
 export const Comments = ({ postId, searchQuery }: { postId: number; searchQuery: string }) => {
-  const { isLoading, data: comments, error } = useComments({ postId, searchQuery })
+  const { isLoading, data: comments, error } = useComments({ postId })
 
   if (isLoading) {
     return <Loading />
@@ -22,19 +22,19 @@ export const Comments = ({ postId, searchQuery }: { postId: number; searchQuery:
     <div className="mt-2">
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-sm font-semibold">댓글</h3>
-        <CommentAddButton />
+        <CommentAddButton postId={postId} />
       </div>
       <div className="space-y-1">
-        {comments[postId]?.map((comment: Comment) => (
+        {comments?.map((comment: Comment) => (
           <div key={comment.id} className="flex items-center justify-between text-sm border-b pb-1">
             <div className="flex items-center space-x-2 overflow-hidden">
               <span className="font-medium truncate">{comment.user.username}:</span>
               <span className="truncate">{highlightText(comment.body, searchQuery)}</span>
             </div>
             <div className="flex items-center space-x-1">
-              <CommentLikeButton />
-              <CommentEditButton />
-              <CommentDeleteButton />
+              <CommentLikeButton comment={comment} likes={comment.likes} />
+              <CommentEditButton comment={comment} />
+              <CommentDeleteButton comment={comment} />
             </div>
           </div>
         ))}

@@ -51,7 +51,7 @@ export const commentsApi = {
   // 댓글 목록 가져오기
   fetchComments: async (postId: number) => {
     const { data } = await axios(`/api/comments/post/${postId}`)
-    return data
+    return data.comments
   },
 
   // 댓글 추가
