@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest"
 import { render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
@@ -43,12 +44,25 @@ beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
+const createTestQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false, // 테스트 중에는 재시도하지 않음
+      },
+    },
+  })
+
 // 테스트에 공통으로 사용될 render 함수
 const renderPostsManager = () => {
+  const queryClient = createTestQueryClient()
+
   return render(
-    <MemoryRouter>
-      <PostsManager />
-    </MemoryRouter>,
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter>
+        <PostsManager />
+      </MemoryRouter>
+    </QueryClientProvider>,
   )
 }
 

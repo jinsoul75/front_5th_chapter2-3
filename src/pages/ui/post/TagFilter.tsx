@@ -7,17 +7,15 @@ interface TagFilterProps {
     url: string
     slug: string
   }[]
-  fetchPostsByTag: (value: string) => void
   updateURL: () => void
 }
 
-export const TagFilter = ({ selectedTag, setSelectedTag, tags, fetchPostsByTag, updateURL }: TagFilterProps) => {
+export const TagFilter = ({ selectedTag, setSelectedTag, tags, updateURL }: TagFilterProps) => {
   return (
     <Select
       value={selectedTag}
       onValueChange={(value) => {
         setSelectedTag(value)
-        fetchPostsByTag(value)
         updateURL()
       }}
     >
@@ -26,7 +24,7 @@ export const TagFilter = ({ selectedTag, setSelectedTag, tags, fetchPostsByTag, 
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="all">모든 태그</SelectItem>
-        {tags.map((tag) => (
+        {tags?.map((tag) => (
           <SelectItem key={tag.url} value={tag.slug}>
             {tag.slug}
           </SelectItem>

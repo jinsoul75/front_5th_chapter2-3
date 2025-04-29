@@ -76,6 +76,7 @@ export const usePostsManagerState = () => {
       const usersData = await fetchUsersApi()
 
       const { total, posts } = postsData
+      
       const postsWithUsers = posts.map((post: Post) => ({
         ...post,
         author: usersData.users.find((user: User) => user.id === post.userId),

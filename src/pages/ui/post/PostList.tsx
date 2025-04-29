@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { PostSearch } from "./PostSearch"
-import { usePosts } from "../../hooks/queries"
+import { usePosts, usePostsByTag, usePostsWithUsers, useSearchPosts, useTags, useUsers } from "../../hooks/queries"
 import { Loading } from "../common/Loading"
 import { PostTable } from "./PostTable"
 import { useNavigate } from "react-router-dom"
+import { Pagination } from "../common/Pagination"
 
 export const PostList = () => {
-  // 얘는 추후 탄스택 쿼리로 변경
+  const navigate = useNavigate()
   const queryParams = new URLSearchParams(location.search)
 
   const [skip, setSkip] = useState(parseInt(queryParams.get("skip") || "0"))
@@ -16,13 +17,15 @@ export const PostList = () => {
   const [sortOrder, setSortOrder] = useState(queryParams.get("sortOrder") || "asc")
   const [selectedTag, setSelectedTag] = useState(queryParams.get("tag") || "")
 
-  const {
-    data: posts,
-    isLoading,
-    refetch: onSearch,
-  } = usePosts({ skip, limit, searchQuery, sortBy, sortOrder, selectedTag })
+  const { data: tags } = useTags()
 
-  const navigate = useNavigate()
+  const { data: posts, isLoading } = usePosts({ skip, limit, sortBy, sortOrder })
+
+  const { data: searchPosts, refetch: onSearch } = useSearchPosts({ searchQuery })
+
+  const { data: postsByTag } = usePostsByTag({ tag: selectedTag })
+
+  const { data: users } = useUsers()
 
   const updateURL = () => {
     const params = new URLSearchParams()
@@ -34,18 +37,30 @@ export const PostList = () => {
     if (selectedTag) params.set("tag", selectedTag)
     navigate(`?${params.toString()}`)
   }
-  
+
   return (
     <div className="flex flex-col gap-4">
       {/* 검색 및 필터 컨트롤 */}
-      <PostSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSearch={onSearch} />
+      <PostSearch
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        onSearch={onSearch}
+        selectedTag={selectedTag}
+        setSelectedTag={setSelectedTag}
+        tags={tags}
+        updateURL={updateURL}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
+      />
 
       {/* 게시물 테이블 */}
       {isLoading ? (
         <Loading />
       ) : (
         <PostTable
-          posts={posts}
+          posts={posts?.posts}
           searchQuery={searchQuery}
           selectedTag={selectedTag}
           setSelectedTag={setSelectedTag}
@@ -54,7 +69,7 @@ export const PostList = () => {
       )}
 
       {/* 페이지네이션 */}
-      {/* <Pagination limit={limit} setLimit={setLimit} skip={skip} setSkip={setSkip} total={total} /> */}
+      <Pagination limit={limit} setLimit={setLimit} skip={skip} setSkip={setSkip} total={posts?.total || 0} />
     </div>
   )
 }
