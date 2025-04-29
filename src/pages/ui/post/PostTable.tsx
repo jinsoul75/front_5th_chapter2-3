@@ -20,11 +20,11 @@ interface PostTableProps {
   selectedTag: string
   setSelectedTag: (value: string) => void
   updateURL: () => void
-  openUserModal: (user: User) => void
-  openPostDetail: (post: Post) => void
-  deletePost: (id: number) => void
-  setSelectedPost: (post: Post) => void
-  setShowEditDialog: (value: boolean) => void
+  // openUserModal: (user: User) => void
+  // openPostDetail: (post: Post) => void
+  // deletePost: (id: number) => void
+  // setSelectedPost: (post: Post) => void
+  // setShowEditDialog: (value: boolean) => void
 }
 
 export const PostTable = ({
@@ -33,11 +33,11 @@ export const PostTable = ({
   selectedTag,
   setSelectedTag,
   updateURL,
-  openUserModal,
-  openPostDetail,
-  deletePost,
-  setSelectedPost,
-  setShowEditDialog,
+  // openUserModal,
+  // openPostDetail,
+  // deletePost,
+  // setSelectedPost,
+  // setShowEditDialog,
 }: PostTableProps) => {
   return (
     <Table>

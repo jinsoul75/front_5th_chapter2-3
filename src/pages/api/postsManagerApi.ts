@@ -4,9 +4,10 @@ import { Comment, NewComment, NewPost, Post } from "../types/postsManagerTypes"
 // Posts related APIs
 export const postsApi = {
   // 게시물 목록 가져오기
-  fetchPosts: async (limit: number, skip: number) => {
-    const { data } = await axios.get(`/api/posts`, { params: { limit, skip } })
-    return data
+  fetchPosts: async (limit: number, skip: number, searchQuery: string, sortBy: string, sortOrder: string, selectedTag: string) => {
+    const { data } = await axios.get(`/api/posts`, { params: { limit, skip, searchQuery, sortBy, sortOrder, selectedTag } })
+    const { posts } = data
+    return posts
   },
 
   // 게시물 검색

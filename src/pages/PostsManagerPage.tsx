@@ -3,7 +3,7 @@ import { PostManagerLayout, PostHeader, PostList, PostAddDialog } from "./ui/pos
 const PostsManager = () => {
   return (
     <PostManagerLayout header={<PostHeader />}>
-      {/* <PostList /> */}
+      <PostList />
       <PostAddDialog />
     </PostManagerLayout>
   )

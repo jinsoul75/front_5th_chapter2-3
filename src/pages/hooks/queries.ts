@@ -2,10 +2,24 @@ import { useQuery, useMutation } from "@tanstack/react-query"
 import { postsApi, commentsApi, usersApi } from "../api/postsManagerApi"
 import { NewPost } from "../types/postsManagerTypes"
 
-export const usePosts = (limit: number, skip: number) => {
+export const usePosts = ({
+  skip,
+  limit,
+  searchQuery,
+  sortBy,
+  sortOrder,
+  selectedTag,
+}: {
+  skip: number
+  limit: number
+  searchQuery: string
+  sortBy: string
+  sortOrder: string
+  selectedTag: string
+}) => {
   return useQuery({
-    queryKey: ["posts", limit, skip],
-    queryFn: () => postsApi.fetchPosts(limit, skip),
+    queryKey: ["posts", limit, skip, searchQuery, sortBy, sortOrder, selectedTag],
+    queryFn: () => postsApi.fetchPosts(limit, skip, searchQuery, sortBy, sortOrder, selectedTag),
   })
 }
 
