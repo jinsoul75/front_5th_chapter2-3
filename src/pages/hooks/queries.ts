@@ -23,11 +23,11 @@ export const usePosts = ({
         queryKey: ["posts", limit, skip, sortBy, sortOrder, selectedTag],
         queryFn: () => {
           if (searchQuery) {
-            return postsApi.searchPosts(searchQuery)
+            return postsApi.searchPosts(searchQuery, limit, skip, sortBy, sortOrder)
           }
 
           if (selectedTag && selectedTag !== "all") {
-            return postsApi.fetchPostsByTag(selectedTag)
+            return postsApi.fetchPostsByTag(selectedTag, limit, skip, sortBy, sortOrder)
           }
 
           return postsApi.fetchPosts(limit, skip, sortBy, sortOrder)

@@ -9,14 +9,14 @@ export const postsApi = {
   },
 
   // 게시물 검색
-  searchPosts: async (query: string) => {
-    const { data } = await axios("/api/posts/search", { params: { q: query } })
+  searchPosts: async (query: string, limit: number, skip: number, sortBy: string, sortOrder: string) => {
+    const { data } = await axios("/api/posts/search", { params: { q: query, limit, skip, sortBy, sortOrder } })
     return data
   },
 
   // 태그별 게시물
-  fetchPostsByTag: async (tag: string) => {
-    const { data } = await axios(`/api/posts/tag/${tag}`)
+  fetchPostsByTag: async (tag: string, limit: number, skip: number, sortBy: string, sortOrder: string) => {
+    const { data } = await axios(`/api/posts/tag/${tag}`, { params: { limit, skip, sortBy, sortOrder } })
     return data
   },
 

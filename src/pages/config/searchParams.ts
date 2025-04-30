@@ -3,7 +3,7 @@ export const SEARCH_PARAMS = {
   limit: "10",
   search: "",
   sortBy: "",
-  sortOrder: "",
+  sortOrder: "asc",
   tag: "",
 }
 

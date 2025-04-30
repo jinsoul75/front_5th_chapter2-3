@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { PostSearch } from "./PostSearch"
 import { usePosts, useTags } from "../../hooks/queries"
 import { Loading } from "../common/Loading"
@@ -27,7 +27,7 @@ export const PostList = () => {
     total,
   } = usePosts({ skip, limit, sortBy, sortOrder, searchQuery, selectedTag })
 
-  const updateURL = () => {
+  const updateURL = useCallback(() => {
     const params = new URLSearchParams()
     if (skip) params.set("skip", skip.toString())
     if (limit) params.set("limit", limit.toString())
@@ -36,7 +36,7 @@ export const PostList = () => {
     if (sortOrder) params.set("sortOrder", sortOrder)
     if (selectedTag) params.set("tag", selectedTag)
     navigate(`?${params.toString()}`)
-  }
+  }, [navigate, selectedTag, searchQuery, sortBy, sortOrder, skip, limit])
 
   const handleResetParams = () => {
     setSortBy(SEARCH_PARAMS.sortBy)
@@ -57,6 +57,10 @@ export const PostList = () => {
       handleResetParams()
     }
   }
+
+  useEffect(() => {
+    updateURL()
+  }, [skip, limit, searchQuery, sortBy, sortOrder, selectedTag, updateURL])
 
   return (
     <div className="flex flex-col gap-4">
