@@ -4,11 +4,11 @@ import { SortControls } from "./SortControls"
 import { TagFilter } from "./TagFilter"
 
 interface PostSearchProps {
+  setSearchQuery: (searchQuery: string) => void
+  setSelectedTag: ({ selectedTag, setSelectedTag }: { selectedTag?: string; setSelectedTag?: string }) => void
   searchQuery: string
-  setSearchQuery: (query: string) => void
   onSearch: () => void
   selectedTag: string
-  setSelectedTag: (tag: string) => void
   tags: Tag[]
   updateURL: () => void
   sortBy: string

@@ -2,7 +2,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 
 interface TagFilterProps {
   selectedTag: string
-  setSelectedTag: (value: string) => void
+  setSelectedTag: ({ selectedTag, setSelectedTag }: { selectedTag?: string; setSelectedTag?: string }) => void
   tags: {
     url: string
     slug: string
@@ -15,7 +15,7 @@ export const TagFilter = ({ selectedTag, setSelectedTag, tags, updateURL }: TagF
     <Select
       value={selectedTag}
       onValueChange={(value) => {
-        setSelectedTag(value)
+        setSelectedTag({ selectedTag: value })
         updateURL()
       }}
     >

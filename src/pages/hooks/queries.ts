@@ -8,26 +8,28 @@ export const usePosts = ({
   sortBy,
   sortOrder,
   searchQuery,
-  tag,
+  selectedTag,
 }: {
   skip: number
   limit: number
   sortBy: string
   sortOrder: string
   searchQuery?: string
-  tag?: string
+  selectedTag?: string
 }) => {
   const result = useQueries({
     queries: [
       {
-        queryKey: ["posts", limit, skip, sortBy, sortOrder],
+        queryKey: ["posts", limit, skip, sortBy, sortOrder, selectedTag],
         queryFn: () => {
           if (searchQuery) {
             return postsApi.searchPosts(searchQuery)
           }
-          if (tag) {
-            return postsApi.fetchPostsByTag(tag)
+
+          if (selectedTag && selectedTag !== "all") {
+            return postsApi.fetchPostsByTag(selectedTag)
           }
+
           return postsApi.fetchPosts(limit, skip, sortBy, sortOrder)
         },
       },
@@ -42,15 +44,17 @@ export const usePosts = ({
 
   const postsWithUser = dataResult.data?.posts.map((post: Post) => ({
     ...post,
-    user: userResult.data?.users.find((user: User) => user.id === post.userId),
+    author: userResult.data?.users.find((user: User) => user.id === post.userId),
   }))
 
   return {
     data: postsWithUser,
     isLoading: dataResult.isLoading || userResult.isLoading,
     refetch: () => {
+      console.log("🚀 ~ refetch 된거맞냐")
       return Promise.all([dataResult.refetch(), userResult.refetch()])
     },
+    total: dataResult.data?.total,
   }
 }
 

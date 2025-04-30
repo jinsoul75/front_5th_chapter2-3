@@ -1,3 +1,7 @@
 export const Loading = () => {
-  return <div className="flex justify-center p-4">로딩 중...</div>
+  return (
+    <div data-testid="loading-text" className="flex justify-center p-4">
+      로딩 중...
+    </div>
+  )
 }

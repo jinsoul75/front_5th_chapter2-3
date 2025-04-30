@@ -5,21 +5,27 @@ import { Loading } from "../common/Loading"
 import { PostTable } from "./PostTable"
 import { useNavigate } from "react-router-dom"
 import { Pagination } from "../common/Pagination"
+import { SEARCH_PARAMS } from "../../config/searchParams"
 
 export const PostList = () => {
   const navigate = useNavigate()
   const queryParams = new URLSearchParams(location.search)
 
-  const [skip, setSkip] = useState(parseInt(queryParams.get("skip") || "0"))
-  const [limit, setLimit] = useState(parseInt(queryParams.get("limit") || "10"))
-  const [searchQuery, setSearchQuery] = useState(queryParams.get("search") || "")
-  const [sortBy, setSortBy] = useState(queryParams.get("sortBy") || "")
-  const [sortOrder, setSortOrder] = useState(queryParams.get("sortOrder") || "asc")
-  const [selectedTag, setSelectedTag] = useState(queryParams.get("tag") || "")
+  const [skip, setSkip] = useState(parseInt(queryParams.get("skip") || SEARCH_PARAMS.skip))
+  const [limit, setLimit] = useState(parseInt(queryParams.get("limit") || SEARCH_PARAMS.limit))
+  const [sortBy, setSortBy] = useState(queryParams.get("sortBy") || SEARCH_PARAMS.sortBy)
+  const [sortOrder, setSortOrder] = useState(queryParams.get("sortOrder") || SEARCH_PARAMS.sortOrder)
+  const [searchQuery, setSearchQuery] = useState(queryParams.get("search") || SEARCH_PARAMS.search)
+  const [selectedTag, setSelectedTag] = useState(queryParams.get("tag") || SEARCH_PARAMS.tag)
 
   const { data: tags } = useTags()
 
-  const { data: posts, isLoading, refetch: onSearch } = usePosts({ skip, limit, sortBy, sortOrder })
+  const {
+    data: posts,
+    isLoading,
+    refetch: onSearch,
+    total,
+  } = usePosts({ skip, limit, sortBy, sortOrder, searchQuery, selectedTag })
 
   const updateURL = () => {
     const params = new URLSearchParams()
@@ -32,15 +38,35 @@ export const PostList = () => {
     navigate(`?${params.toString()}`)
   }
 
+  const handleResetParams = () => {
+    setSortBy(SEARCH_PARAMS.sortBy)
+    setSortOrder(SEARCH_PARAMS.sortOrder)
+    setSkip(parseInt(SEARCH_PARAMS.skip))
+  }
+
+  const handleResetFilters = () => {
+    setSelectedTag(SEARCH_PARAMS.tag)
+    handleResetParams()
+    onSearch()
+  }
+
+  const handleResetSearchQuery = ({ selectedTag }: { selectedTag?: string }) => {
+    if (selectedTag) {
+      setSelectedTag(selectedTag)
+      setSearchQuery(SEARCH_PARAMS.search)
+      handleResetParams()
+    }
+  }
+
   return (
     <div className="flex flex-col gap-4">
       {/* 검색 및 필터 컨트롤 */}
       <PostSearch
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        onSearch={onSearch}
+        setSelectedTag={handleResetSearchQuery}
+        onSearch={handleResetFilters}
         selectedTag={selectedTag}
-        setSelectedTag={setSelectedTag}
         tags={tags}
         updateURL={updateURL}
         sortBy={sortBy}
@@ -63,7 +89,7 @@ export const PostList = () => {
       )}
 
       {/* 페이지네이션 */}
-      <Pagination limit={limit} setLimit={setLimit} skip={skip} setSkip={setSkip} total={posts?.total || 0} />
+      <Pagination limit={limit} setLimit={setLimit} skip={skip} setSkip={setSkip} total={total || 0} />
     </div>
   )
 }

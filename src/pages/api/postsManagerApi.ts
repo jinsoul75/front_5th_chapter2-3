@@ -1,7 +1,6 @@
 import axios from "axios"
 import { Comment, NewComment, NewPost, Post } from "../types/postsManagerTypes"
 
-// Posts related APIs
 export const postsApi = {
   // 게시물 목록 가져오기
   fetchPosts: async (limit: number, skip: number, sortBy: string, sortOrder: string) => {
@@ -46,7 +45,6 @@ export const postsApi = {
   },
 }
 
-// Comments related APIs
 export const commentsApi = {
   // 댓글 목록 가져오기
   fetchComments: async (postId: number) => {
@@ -79,7 +77,6 @@ export const commentsApi = {
   },
 }
 
-// Users related APIs
 export const usersApi = {
   // 사용자 목록 가져오기
   fetchUsers: async () => {

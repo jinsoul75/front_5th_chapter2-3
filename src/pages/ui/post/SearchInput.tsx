@@ -3,7 +3,7 @@ import { Input } from "../../../shared/ui"
 
 interface SearchInputProps {
   searchQuery: string
-  setSearchQuery: (value: string) => void
+  setSearchQuery: (searchQuery: string) => void
   onSearch: () => void
 }
 
