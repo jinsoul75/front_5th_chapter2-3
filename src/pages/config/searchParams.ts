@@ -6,3 +6,9 @@ export const SEARCH_PARAMS = {
   sortOrder: "",
   tag: "",
 }
+
+export const INITIAL_POST = {
+  title: "",
+  body: "",
+  userId: 0,
+}

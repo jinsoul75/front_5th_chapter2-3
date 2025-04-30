@@ -4,16 +4,19 @@ import { useModalStore } from "../../../shared/store"
 import { DialogHeader, DialogTitle, Input, Textarea, Button, DialogContent, Dialog } from "../../../shared/ui"
 import { NewPost } from "../../types/postsManagerTypes"
 import { useAddPost } from "../../hooks/queries"
+import { INITIAL_POST } from "../../config/searchParams"
 
 export const PostAddDialog = () => {
-  const [newPost, setNewPost] = useState<NewPost>({
-    title: "",
-    body: "",
-    userId: 0,
-  })
+  const [newPost, setNewPost] = useState<NewPost>(INITIAL_POST)
 
   const { openedModal, closeModal } = useModalStore()
   const { mutate: addPost } = useAddPost()
+
+  const handleAddPost = () => {
+    addPost(newPost)
+    setNewPost(INITIAL_POST)
+    closeModal()
+  }
 
   return (
     // {/* 게시물 추가 대화상자  entity/posts/ui/post-add-dialog.tsx*/}
@@ -40,7 +43,7 @@ export const PostAddDialog = () => {
             value={newPost.userId}
             onChange={(e) => setNewPost({ ...newPost, userId: Number(e.target.value) })}
           />
-          <Button onClick={() => addPost(newPost)}>게시물 추가</Button>
+          <Button onClick={handleAddPost}>게시물 추가</Button>
         </div>
       </DialogContent>
     </Dialog>

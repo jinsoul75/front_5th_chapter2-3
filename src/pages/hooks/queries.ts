@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueries } from "@tanstack/react-query"
+import { useQuery, useMutation, useQueries, useQueryClient } from "@tanstack/react-query"
 import { commentsApi, postsApi, usersApi } from "../api/postsManagerApi"
 import { Comment, NewComment, NewPost, Post, User } from "../types/postsManagerTypes"
 
@@ -51,7 +51,6 @@ export const usePosts = ({
     data: postsWithUser,
     isLoading: dataResult.isLoading || userResult.isLoading,
     refetch: () => {
-      console.log("🚀 ~ refetch 된거맞냐")
       return Promise.all([dataResult.refetch(), userResult.refetch()])
     },
     total: dataResult.data?.total,
@@ -59,8 +58,24 @@ export const usePosts = ({
 }
 
 export const useAddPost = () => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: (newPost: NewPost) => postsApi.addPost(newPost),
+    onSuccess: (newPost) => {
+      const activeQueries = queryClient.getQueriesData<{ posts: Post[]; total: number }>({ queryKey: ["posts"] })
+      
+      activeQueries.forEach(([queryKey, data]) => {
+        if (data) {
+          const updatedData = {
+            ...data,
+            posts: [...data.posts, newPost],
+            total: data.total + 1
+          }
+          queryClient.setQueryData(queryKey, updatedData)
+        }
+      })
+    },
   })
 }
 
