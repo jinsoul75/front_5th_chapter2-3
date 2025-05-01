@@ -1,104 +1,97 @@
-import { useCallback, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 
 import { PostControls } from "./PostControls"
+import { usePostListState } from "../model/usePostListState"
 
 import { SEARCH_PARAMS } from "@/features/post/config/searchParams"
 
-import { usePosts, useTags } from "@/entity/post/api/useQuries"
 import { PostTable } from "@/entity/post/ui/PostTable"
 
 import { Loading } from "@/shared/ui/Loading"
 import { Pagination } from "@/shared/ui/Pagination"
+import { usePostListData } from "../model/usePostListData"
 
 export type SetSelectedTag = ({ selectedTag }: { selectedTag: string }) => void
 
 // props로 받는것이 없고 이 조합을 이 컴포넌트 자체로 재사용이 가능하다 -> 위젯?
 
 export const PostList = () => {
-  const navigate = useNavigate()
-  const queryParams = new URLSearchParams(location.search)
+  const { params, setParams, updateURL } = usePostListState()
 
-  const [skip, setSkip] = useState(parseInt(queryParams.get("skip") || SEARCH_PARAMS.skip))
-  const [limit, setLimit] = useState(parseInt(queryParams.get("limit") || SEARCH_PARAMS.limit))
-  const [sortBy, setSortBy] = useState(queryParams.get("sortBy") || SEARCH_PARAMS.sortBy)
-  const [sortOrder, setSortOrder] = useState(queryParams.get("sortOrder") || SEARCH_PARAMS.sortOrder)
-  const [searchQuery, setSearchQuery] = useState(queryParams.get("search") || SEARCH_PARAMS.search)
-  const [selectedTag, setSelectedTag] = useState(queryParams.get("tag") || SEARCH_PARAMS.tag)
+  const { posts, isLoading, refetch: onSearch, total, tags } = usePostListData(params)
 
-  const { data: tags } = useTags()
-
-  const {
-    data: posts,
-    isLoading,
-    refetch: onSearch,
-    total,
-  } = usePosts({ skip, limit, sortBy, sortOrder, searchQuery, selectedTag })
-
-  const updateURL = useCallback(() => {
-    const params = new URLSearchParams()
-    if (skip) params.set("skip", skip.toString())
-    if (limit) params.set("limit", limit.toString())
-    if (searchQuery) params.set("search", searchQuery)
-    if (sortBy) params.set("sortBy", sortBy)
-    if (sortOrder) params.set("sortOrder", sortOrder)
-    if (selectedTag) params.set("tag", selectedTag)
-    navigate(`?${params.toString()}`)
-  }, [navigate, selectedTag, searchQuery, sortBy, sortOrder, skip, limit])
-
-  const handleResetParams = () => {
-    setSortBy(SEARCH_PARAMS.sortBy)
-    setSortOrder(SEARCH_PARAMS.sortOrder)
-    setSkip(parseInt(SEARCH_PARAMS.skip))
+  const handleResetSkipAndLimit = () => {
+    setParams((prev) => ({
+      ...prev,
+      skip: SEARCH_PARAMS.skip,
+      limit: SEARCH_PARAMS.limit,
+    }))
   }
 
   const handleResetFilters = () => {
-    setSelectedTag(SEARCH_PARAMS.tag)
-    handleResetParams()
+    setParams((prev) => ({
+      ...prev,
+      tag: SEARCH_PARAMS.tag,
+    }))
+    handleResetSkipAndLimit()
     onSearch()
   }
 
   const handleResetSearchQuery: SetSelectedTag = ({ selectedTag }) => {
     if (selectedTag) {
-      setSelectedTag(selectedTag)
-      setSearchQuery(SEARCH_PARAMS.search)
-      handleResetParams()
+      setParams((prev) => ({
+        ...prev,
+        searchQuery: SEARCH_PARAMS.search,
+        selectedTag: selectedTag,
+      }))
+      handleResetSkipAndLimit()
     }
   }
 
   useEffect(() => {
     updateURL()
-  }, [skip, limit, searchQuery, sortBy, sortOrder, selectedTag, updateURL])
+  }, [params, updateURL])
 
   return (
     <div className="flex flex-col gap-4">
       <PostControls
         search={{
-          query: searchQuery,
-          setQuery: setSearchQuery,
+          query: params.searchQuery,
+          setQuery: (searchQuery) => setParams((prev) => ({ ...prev, searchQuery })),
           onSearch: handleResetFilters,
         }}
         tag={{
-          selected: selectedTag,
+          selected: params.selectedTag,
           setSelected: handleResetSearchQuery,
           tags: tags,
           updateURL: updateURL,
         }}
         sort={{
-          by: sortBy,
-          setBy: setSortBy,
-          order: sortOrder,
-          setOrder: setSortOrder,
+          by: params.sortBy,
+          setBy: (sortBy) => setParams((prev) => ({ ...prev, sortBy })),
+          order: params.sortOrder,
+          setOrder: (sortOrder) => setParams((prev) => ({ ...prev, sortOrder })),
         }}
       />
 
       {isLoading ? (
         <Loading />
       ) : (
-        <PostTable posts={posts} searchQuery={searchQuery} selectedTag={selectedTag} onTagClick={setSelectedTag} />
+        <PostTable
+          posts={posts}
+          searchQuery={params.searchQuery}
+          selectedTag={params.selectedTag}
+          onTagClick={(tag) => setParams((prev) => ({ ...prev, selectedTag: tag }))}
+        />
       )}
 
-      <Pagination limit={limit} setLimit={setLimit} skip={skip} setSkip={setSkip} total={total || 0} />
+      <Pagination
+        limit={params.limit}
+        setLimit={(limit) => setParams((prev) => ({ ...prev, limit }))}
+        skip={params.skip}
+        setSkip={(skip) => setParams((prev) => ({ ...prev, skip }))}
+        total={total || 0}
+      />
     </div>
   )
 }
