@@ -4,8 +4,14 @@ import { CommentAddModalButton, CommentItem } from "@/entity/comment/ui"
 
 import { Loading } from "@/shared/ui/Loading"
 
-export const Comments = ({ postId, searchQuery }: { postId: string; searchQuery: string }) => {
+interface CommentListProps {
+  postId: number
+  searchQuery: string
+}
+
+export const Comments = ({ postId, searchQuery }: CommentListProps) => {
   const { isLoading, data: comments, error } = useComments({ postId })
+  console.log("🚀 ~ Comments ~ postId:", postId)
 
   if (isLoading) {
     return <Loading />

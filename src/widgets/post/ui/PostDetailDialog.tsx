@@ -3,18 +3,18 @@ import { Post } from "@/entity/post/types/postTypes"
 import { Comments } from "@/widgets/comment/ui/CommentList"
 
 import { MODAL_KEY } from "@/shared/config"
-import { useModalStore } from "@/shared/store"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui"
 import { highlightText } from "@/shared/utils/highlightText"
+import { useModal } from "@/shared/store/useModal"
 
 export const PostDetailDialog = () => {
-  const { openedModal, closeModal, modalProps } = useModalStore()
+  const { isOpen, props, close } = useModal<{ post: Post; searchQuery: string }>(MODAL_KEY.POST_DETAIL)
 
-  const selectedPost = modalProps?.post as Post
-  const searchQuery = modalProps?.searchQuery as string
+  const selectedPost = props?.post as Post
+  const searchQuery = props?.searchQuery as string
 
   return (
-    <Dialog open={openedModal === MODAL_KEY.POST_DETAIL} onOpenChange={closeModal}>
+    <Dialog open={isOpen} onOpenChange={close}>
       <DialogContent className="max-w-3xl">
         <DialogHeader>
           <DialogTitle>{highlightText(selectedPost?.title, searchQuery)}</DialogTitle>

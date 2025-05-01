@@ -1,29 +1,33 @@
-// src/shared/store/modalStore.ts
 import { create } from "zustand"
 import { ModalKey } from "../config/modalKeys"
 
-interface ModalProps {
+export interface ModalProps {
   [key: string]: unknown
+}
+interface ModalItem {
+  key: ModalKey
+  props?: ModalProps
 }
 
 interface ModalState {
-  openedModal: ModalKey | null
-  modalProps: ModalProps | null
+  openedModals: ModalItem[]
   openModal: (key: ModalKey, props?: ModalProps) => void
-  closeModal: () => void
+  closeModal: (key: ModalKey) => void
+  closeAllModals: () => void
 }
 
 export const useModalStore = create<ModalState>((set) => ({
-  openedModal: null,
-  modalProps: null,
-  openModal: (key, props = undefined) =>
+  openedModals: [],
+  openModal: (key, props) =>
+    set((state) => ({
+      openedModals: [...state.openedModals, { key, props }],
+    })),
+  closeModal: (key) =>
+    set((state) => ({
+      openedModals: state.openedModals.filter((modal) => modal.key !== key),
+    })),
+  closeAllModals: () =>
     set({
-      openedModal: key,
-      modalProps: props,
-    }),
-  closeModal: () =>
-    set({
-      openedModal: null,
-      modalProps: null,
+      openedModals: [],
     }),
 }))

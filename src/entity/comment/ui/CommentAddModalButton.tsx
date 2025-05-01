@@ -4,7 +4,7 @@ import { useModalStore } from "@/shared/store"
 import { MODAL_KEY } from "@/shared/config"
 import { Button } from "@/shared/ui"
 
-export const CommentAddModalButton = ({ postId }: { postId: string }) => {
+export const CommentAddModalButton = ({ postId }: { postId: number }) => {
   const { openModal } = useModalStore()
 
   return (

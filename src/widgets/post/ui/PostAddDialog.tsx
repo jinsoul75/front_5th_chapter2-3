@@ -1,21 +1,19 @@
 import { PostAddForm } from "@/entity/post/ui"
-import { useAddPost } from "@/entity/post/api/useQuries"
 
 import { MODAL_KEY } from "@/shared/config"
-import { useModalStore } from "@/shared/store"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui"
+import { useModal } from "@/shared/store/useModal"
 
 export const PostAddDialog = () => {
-  const { openedModal, closeModal } = useModalStore()
-  const { mutate: addPost } = useAddPost()
+  const { isOpen, close } = useModal<{ postId: number }>(MODAL_KEY.ADD_POST)
 
   return (
-    <Dialog open={openedModal === MODAL_KEY.ADD_POST} onOpenChange={closeModal}>
+    <Dialog open={isOpen} onOpenChange={close}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>새 게시물 추가</DialogTitle>
         </DialogHeader>
-        <PostAddForm onSubmit={addPost} closeModal={closeModal} />
+        <PostAddForm closeModal={close} />
       </DialogContent>
     </Dialog>
   )

@@ -5,17 +5,19 @@ import { NewPost } from "../types/postTypes"
 import { INITIAL_POST } from "@/features/post/config/searchParams"
 
 import { Input, Textarea, Button } from "@/shared/ui"
+import { useAddPost } from "../api/useQuries"
 
 interface PostAddFormProps {
-  onSubmit: (newPost: NewPost) => void
   closeModal: () => void
 }
 
-export const PostAddForm = ({ onSubmit, closeModal }: PostAddFormProps) => {
+export const PostAddForm = ({ closeModal }: PostAddFormProps) => {
   const [newPost, setNewPost] = useState<NewPost>(INITIAL_POST)
 
+  const { mutate: addPost } = useAddPost()
+
   const handleSubmit = () => {
-    onSubmit(newPost)
+    addPost(newPost)
     setNewPost(INITIAL_POST)
     closeModal()
   }

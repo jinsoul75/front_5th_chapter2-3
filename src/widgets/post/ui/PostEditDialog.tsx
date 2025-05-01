@@ -1,24 +1,21 @@
-import { useUpdatePost } from "@/entity/post/api/useQuries"
 import { Post } from "@/entity/post/types/postTypes"
-
-import { MODAL_KEY } from "@/shared/config"
-import { useModalStore } from "@/shared/store"
-import { DialogContent, DialogHeader, DialogTitle, Dialog } from "@/shared/ui"
 import { PostEditForm } from "@/entity/post/ui"
 
-export const PostEditDialog = () => {
-  const { openedModal, closeModal, modalProps } = useModalStore()
-  const selectedPost = modalProps?.post as Post
+import { DialogContent, DialogHeader, DialogTitle, Dialog } from "@/shared/ui"
+import { useModal } from "@/shared/store/useModal"
+import { MODAL_KEY } from "@/shared/config"
 
-  const { mutate: updatePost } = useUpdatePost()
+export const PostEditDialog = () => {
+  const { isOpen, props, close } = useModal<{ post: Post }>(MODAL_KEY.EDIT_POST)
+  const selectedPost = props?.post as Post
 
   return (
-    <Dialog open={openedModal === MODAL_KEY.EDIT_POST} onOpenChange={closeModal}>
+    <Dialog open={isOpen} onOpenChange={close}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>게시물 수정</DialogTitle>
         </DialogHeader>
-        <PostEditForm post={selectedPost} onSubmit={updatePost} />
+        <PostEditForm post={selectedPost} closeModal={close} />
       </DialogContent>
     </Dialog>
   )

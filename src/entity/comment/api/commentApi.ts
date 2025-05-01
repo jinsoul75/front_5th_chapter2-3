@@ -3,7 +3,7 @@ import { Comment, NewComment } from "@/entity/comment/types/commnetTypes"
 
 export const commentsApi = {
   // 댓글 목록 가져오기
-  fetchComments: async (postId: string) => {
+  fetchComments: async (postId: number) => {
     const { data } = await axios(`/api/comments/post/${postId}`)
     return data.comments
   },

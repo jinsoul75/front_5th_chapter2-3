@@ -1,7 +1,7 @@
 import { User } from "@/entity/user/types/userTypes"
 
 export interface Post {
-  id: string
+  id: number
   title: string
   body: string
   userId: number

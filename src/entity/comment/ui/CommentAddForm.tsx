@@ -3,18 +3,19 @@ import { useState } from "react"
 import { NewComment } from "../types/commnetTypes"
 
 import { Button, Textarea } from "@/shared/ui"
+import { useAddComment } from "../api/useQuries"
 
-export const CommentAddForm = ({
-  addComment,
-  postId,
-}: {
-  addComment: (newComment: NewComment) => void
+interface CommentAddFormProps {
   postId: number
-}) => {
+}
+
+export const CommentAddForm = ({ postId }: CommentAddFormProps) => {
   const [newComment, setNewComment] = useState<NewComment>({
     body: "",
     postId,
   })
+
+  const { mutate: addComment } = useAddComment()
 
   const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewComment({ ...newComment, body: e.target.value })

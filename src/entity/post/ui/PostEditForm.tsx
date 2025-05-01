@@ -3,19 +3,20 @@ import { useState } from "react"
 import { Button, Input, Textarea } from "@/shared/ui"
 
 import { Post } from "../types/postTypes"
-import { useModalStore } from "@/shared/store"
+import { useUpdatePost } from "../api/useQuries"
 
 interface PostEditFormProps {
   post: Post
-  onSubmit: (updatedPost: Post) => void
+  closeModal: () => void
 }
 
-export const PostEditForm = ({ post, onSubmit }: PostEditFormProps) => {
+export const PostEditForm = ({ post, closeModal }: PostEditFormProps) => {
   const [updatedPost, setUpdatedPost] = useState<Post>(post)
-  const { closeModal } = useModalStore()
+
+  const { mutate: updatePost } = useUpdatePost()
 
   const handleSubmit = () => {
-    onSubmit(updatedPost)
+    updatePost(updatedPost)
     setUpdatedPost(post)
     closeModal()
   }
