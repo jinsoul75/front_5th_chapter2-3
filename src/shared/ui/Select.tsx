@@ -1,13 +1,13 @@
 import * as SelectPrimitive from "@radix-ui/react-select"
 import { Check, ChevronDown } from "lucide-react"
-import { forwardRef } from "react"
+import { forwardRef, PropsWithChildren } from "react"
 
 // 선택 컴포넌트
 export const Select = SelectPrimitive.Root
 export const SelectGroup = SelectPrimitive.Group
 export const SelectValue = SelectPrimitive.Value
 
-export const SelectTrigger = forwardRef<HTMLButtonElement, { className?: string; children?: React.ReactNode }>(
+export const SelectTrigger = forwardRef<HTMLButtonElement, PropsWithChildren<{ className?: string }>>(
   ({ className, children, ...props }, ref) => (
     <SelectPrimitive.Trigger
       ref={ref}
@@ -21,24 +21,23 @@ export const SelectTrigger = forwardRef<HTMLButtonElement, { className?: string;
 )
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
 
-export const SelectContent = forwardRef<
-  HTMLDivElement,
-  { className?: string; position?: "popper"; children: React.ReactNode }
->(({ className, children, position = "popper", ...props }, ref) => (
-  <SelectPrimitive.Portal>
-    <SelectPrimitive.Content
-      ref={ref}
-      className={`relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-white text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 ${className}`}
-      position={position}
-      {...props}
-    >
-      <SelectPrimitive.Viewport className="p-1">{children}</SelectPrimitive.Viewport>
-    </SelectPrimitive.Content>
-  </SelectPrimitive.Portal>
-))
+export const SelectContent = forwardRef<HTMLDivElement, PropsWithChildren<{ className?: string; position?: "popper" }>>(
+  ({ className, children, position = "popper", ...props }, ref) => (
+    <SelectPrimitive.Portal>
+      <SelectPrimitive.Content
+        ref={ref}
+        className={`relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-white text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 ${className}`}
+        position={position}
+        {...props}
+      >
+        <SelectPrimitive.Viewport className="p-1">{children}</SelectPrimitive.Viewport>
+      </SelectPrimitive.Content>
+    </SelectPrimitive.Portal>
+  ),
+)
 SelectContent.displayName = SelectPrimitive.Content.displayName
 
-export const SelectItem = forwardRef<HTMLDivElement, { className?: string; children?: React.ReactNode; value: string }>(
+export const SelectItem = forwardRef<HTMLDivElement, PropsWithChildren<{ className?: string; value: string }>>(
   ({ className, children, ...props }, ref) => (
     <SelectPrimitive.Item
       ref={ref}

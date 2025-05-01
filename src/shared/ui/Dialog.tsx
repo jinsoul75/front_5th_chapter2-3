@@ -1,6 +1,6 @@
 import { X } from "lucide-react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
-import React, { forwardRef } from "react"
+import { forwardRef, PropsWithChildren } from "react"
 
 // 대화상자 컴포넌트
 export const Dialog = DialogPrimitive.Root
@@ -8,7 +8,7 @@ export const DialogTrigger = DialogPrimitive.Trigger
 export const DialogPortal = DialogPrimitive.Portal
 export const DialogOverlay = DialogPrimitive.Overlay
 
-export const DialogContent = forwardRef<HTMLDivElement, { className?: string; children: React.ReactNode }>(
+export const DialogContent = forwardRef<HTMLDivElement, PropsWithChildren<{ className?: string }>>(
   ({ className, children, ...props }, ref) => (
     <DialogPortal>
       <DialogOverlay className="fixed inset-0 z-50 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
@@ -28,16 +28,24 @@ export const DialogContent = forwardRef<HTMLDivElement, { className?: string; ch
 )
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
-export const DialogHeader = forwardRef<HTMLDivElement, { className?: string }>(({ className, ...props }, ref) => (
-  <div ref={ref} className={`flex flex-col space-y-1.5 text-center sm:text-left ${className}`} {...props} />
-))
+export const DialogHeader = forwardRef<HTMLDivElement, PropsWithChildren<{ className?: string }>>(
+  ({ className, children, ...props }, ref) => (
+    <div ref={ref} className={`flex flex-col space-y-1.5 text-center sm:text-left ${className}`} {...props}>
+      {children}
+    </div>
+  ),
+)
 DialogHeader.displayName = "DialogHeader"
 
-export const DialogTitle = forwardRef<HTMLHeadingElement, { className?: string }>(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title
-    ref={ref}
-    className={`text-lg font-semibold leading-none tracking-tight ${className}`}
-    {...props}
-  />
-))
+export const DialogTitle = forwardRef<HTMLHeadingElement, PropsWithChildren<{ className?: string }>>(
+  ({ className, children, ...props }, ref) => (
+    <DialogPrimitive.Title
+      ref={ref}
+      className={`text-lg font-semibold leading-none tracking-tight ${className}`}
+      {...props}
+    >
+      {children}
+    </DialogPrimitive.Title>
+  ),
+)
 DialogTitle.displayName = DialogPrimitive.Title.displayName
