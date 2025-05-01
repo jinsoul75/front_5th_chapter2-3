@@ -20,4 +20,13 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  base: process.env.NODE_ENV === "production" ? "/front_5th_chapter2-3/" : "/",
+  build: {
+    outDir: "dist",
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, "./index.html"),
+      },
+    },
+  },
 })
