@@ -1,10 +1,12 @@
 import { Edit2 } from "lucide-react"
-import { Button } from "../../../shared/ui"
-import { useModalStore } from "../../../shared/store"
-import { MODAL_KEY } from "../../../shared/config"
-import { Comment } from "../../types/postsManagerTypes"
 
-export const CommentEditButton = ({ comment }: { comment: Comment }) => {
+import { Comment } from "@/entity/comment/types/commnetTypes"
+
+import { useModalStore } from "@/shared/store"
+import { MODAL_KEY } from "@/shared/config"
+import { Button } from "@/shared/ui"
+
+export const CommentEditModalButton = ({ comment }: { comment: Comment }) => {
   const { openModal } = useModalStore()
 
   return (

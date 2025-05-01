@@ -1,7 +1,9 @@
 import { ThumbsUp } from "lucide-react"
-import { Button } from "../../../shared/ui"
-import { Comment } from "../../types/postsManagerTypes"
-import { useLikeComment } from "../../../features/post/hooks/queries"
+
+import { Comment } from "@/entity/comment/types/commnetTypes"
+import { useLikeComment } from "@/entity/comment/api/useQuries"
+
+import { Button } from "@/shared/ui"
 
 export const CommentLikeButton = ({ comment, likes }: { comment: Comment; likes: number }) => {
   const { mutate: likeComment } = useLikeComment()

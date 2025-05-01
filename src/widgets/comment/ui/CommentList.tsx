@@ -1,11 +1,8 @@
-import { Loading } from "@/shared/ui/Loading"
-import { CommentAddButton } from "./CommentAddButton"
-import { CommentDeleteButton } from "./CommentDeleteButton"
-import { CommentEditButton } from "./CommentEditButton"
-import { CommentLikeButton } from "./CommentLikeButton"
-import { highlightText } from "@/shared/utils/highlightText"
 import { useComments } from "@/entity/comment/api/useQuries"
 import { Comment } from "@/entity/comment/types/commnetTypes"
+import { CommentAddModalButton, CommentItem } from "@/entity/comment/ui"
+
+import { Loading } from "@/shared/ui/Loading"
 
 export const Comments = ({ postId, searchQuery }: { postId: string; searchQuery: string }) => {
   const { isLoading, data: comments, error } = useComments({ postId })
@@ -22,21 +19,11 @@ export const Comments = ({ postId, searchQuery }: { postId: string; searchQuery:
     <div className="mt-2">
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-sm font-semibold">댓글</h3>
-        <CommentAddButton postId={postId} />
+        <CommentAddModalButton postId={postId} />
       </div>
       <div className="space-y-1">
         {comments?.map((comment: Comment) => (
-          <div key={comment.id} className="flex items-center justify-between text-sm border-b pb-1">
-            <div className="flex items-center space-x-2 overflow-hidden">
-              <span className="font-medium truncate">{comment.user.username}:</span>
-              <span className="truncate">{highlightText(comment.body, searchQuery)}</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <CommentLikeButton comment={comment} likes={comment.likes} />
-              <CommentEditButton comment={comment} />
-              <CommentDeleteButton comment={comment} />
-            </div>
-          </div>
+          <CommentItem key={comment.id} comment={comment} searchQuery={searchQuery} />
         ))}
       </div>
     </div>

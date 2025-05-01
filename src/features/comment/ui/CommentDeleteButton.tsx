@@ -1,7 +1,9 @@
 import { Trash2 } from "lucide-react"
-import { Button } from "../../../shared/ui"
-import { useDeleteComment } from "../../../features/post/hooks/queries"
-import { Comment } from "../../types/postsManagerTypes"
+
+import { Comment } from "@/entity/comment/types/commnetTypes"
+import { useDeleteComment } from "@/entity/comment/api/useQuries"
+
+import { Button } from "@/shared/ui"
 
 export const CommentDeleteButton = ({ comment }: { comment: Comment }) => {
   const { mutate: deleteComment } = useDeleteComment()
