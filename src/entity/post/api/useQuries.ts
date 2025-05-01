@@ -18,6 +18,8 @@ export const usePosts = ({
   searchQuery?: string
   selectedTag?: string
 }) => {
+  // user 데이터는 자주 안바뀌는것으로 간주
+  // post 데이터는 자주 바뀔것으로 간주해서 캐싱전략 x
   const result = useQueries({
     queries: [
       {
@@ -37,6 +39,8 @@ export const usePosts = ({
       {
         queryKey: ["users"],
         queryFn: () => usersApi.fetchUsers(),
+        staleTime: 5 * 60 * 1000,
+        gcTime: 30 * 60 * 1000,
       },
     ],
   })
@@ -84,12 +88,31 @@ export const useTags = () => {
   return useQuery({
     queryKey: ["tags"],
     queryFn: () => postsApi.fetchTags(),
+    staleTime: Infinity,
+    gcTime: Infinity,
   })
 }
 
 export const useDeletePost = () => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: (postId: string) => postsApi.deletePost(postId),
+    onSuccess: (deletedPost) => {
+      const activeQueries = queryClient.getQueriesData<{ posts: Post[]; total: number }>({ queryKey: ["posts"] })
+
+      activeQueries.forEach(([queryKey, data]) => {
+        if (data) {
+          const updatedData = {
+            ...data,
+            posts: data.posts.filter((post) => post.id !== deletedPost.id),
+            total: data.total - 1,
+          }
+
+          queryClient.setQueryData(queryKey, updatedData)
+        }
+      })
+    },
   })
 }
 
