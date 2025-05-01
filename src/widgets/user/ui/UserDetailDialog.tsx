@@ -1,11 +1,11 @@
-import { MODAL_KEY } from "@/shared/config"
-import { useModalStore } from "@/shared/store"
-import { DialogContent, DialogHeader, DialogTitle } from "@/shared/ui"
-
-import { Dialog } from "@/shared/ui"
 import { useUserDetail } from "@/entity/user/api/useQuries"
 import { UserDetail } from "@/entity/user/ui/UserDetail"
 
+import { MODAL_KEY } from "@/shared/config"
+import { useModalStore } from "@/shared/store"
+import { DialogContent, DialogHeader, DialogTitle, Dialog } from "@/shared/ui"
+
+// shared와 entity의 조합의 UI -> widget
 export const UserDetailDialog = () => {
   const { openedModal, closeModal, modalProps } = useModalStore()
 

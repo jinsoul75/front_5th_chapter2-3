@@ -1,11 +1,11 @@
-import { MODAL_KEY } from "../../../shared/config"
-import { useModalStore } from "../../../shared/store"
-import { DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui"
-
-import { Dialog } from "../../../shared/ui"
 import { Post } from "@/entity/post/types/postTypes"
-import { highlightText } from "../../../shared/utils/highlightText"
+
 import { Comments } from "@/widgets/comment/ui/CommentList"
+
+import { MODAL_KEY } from "@/shared/config"
+import { useModalStore } from "@/shared/store"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui"
+import { highlightText } from "@/shared/utils/highlightText"
 
 export const PostDetailDialog = () => {
   const { openedModal, closeModal, modalProps } = useModalStore()

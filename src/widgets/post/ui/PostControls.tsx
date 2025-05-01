@@ -1,9 +1,10 @@
-import { Tag } from "@/pages/types/postsManagerTypes"
-import { SearchInput } from "@/shared/ui/SearchInput"
-import { SortControls } from "@/shared/ui/SortControls"
-import { TagFilter } from "@/shared/ui/TagFilter"
 import { SetSelectedTag } from "./PostList"
-import { POST_SORT_OPTIONS, POST_SORT_ORDER_OPTIONS } from "../../../features/post/constants/sortOptions"
+
+import { Tag } from "@/entity/post/types/postTypes"
+
+import { POST_SORT_OPTIONS, POST_SORT_ORDER_OPTIONS } from "@/features/post/constants/sortOptions"
+
+import { SearchInput, SortControls, TagFilter } from "@/shared/ui"
 
 interface PostControlsProps {
   search: {

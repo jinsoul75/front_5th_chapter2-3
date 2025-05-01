@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-import { PostTable } from "@/entity/post/ui/PostTable"
+import { PostControls } from "./PostControls"
+
 import { SEARCH_PARAMS } from "@/features/post/config/searchParams"
+import { usePostTableActions } from "@/features/post/hooks/usePostTableActions"
+
 import { usePosts, useTags } from "@/entity/post/api/useQuries"
+import { PostTable } from "@/entity/post/ui/PostTable"
+
 import { Loading } from "@/shared/ui/Loading"
 import { Pagination } from "@/shared/ui/Pagination"
-
-import { PostControls } from "./PostControls"
-import { usePostTableActions } from "@/features/post/hooks/usePostTableActions"
 
 export type SetSelectedTag = ({ selectedTag }: { selectedTag: string }) => void
 
@@ -73,7 +75,6 @@ export const PostList = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* 검색 및 필터 컨트롤 */}
       <PostControls
         search={{
           query: searchQuery,
@@ -94,7 +95,6 @@ export const PostList = () => {
         }}
       />
 
-      {/* 게시물 테이블 */}
       {isLoading ? (
         <Loading />
       ) : (
@@ -110,7 +110,6 @@ export const PostList = () => {
         />
       )}
 
-      {/* 페이지네이션 */}
       <Pagination limit={limit} setLimit={setLimit} skip={skip} setSkip={setSkip} total={total || 0} />
     </div>
   )

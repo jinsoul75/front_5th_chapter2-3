@@ -5,6 +5,7 @@ import { AddModalButton } from "@/shared/ui/AddModalButton"
 // 이 헤더는 단순 UI만 보여주지만
 // '게시물추가' 라는 post entity 의미를 가지고 ADD_POST 라는 모달 key를 가진다.
 // 도메인과 UI 조합이 섞여 있으므로 widget 로 분리하는 게 좋을 것 같다.
+// 근데 shared 밖에 없다......... -> entity?
 
 export const PostHeader = () => {
   return (
