@@ -3,6 +3,7 @@ import { useState } from "react"
 import { Button, Input, Textarea } from "@/shared/ui"
 
 import { Post } from "../types/postTypes"
+import { useModalStore } from "@/shared/store"
 
 interface PostEditFormProps {
   post: Post
@@ -11,6 +12,13 @@ interface PostEditFormProps {
 
 export const PostEditForm = ({ post, onSubmit }: PostEditFormProps) => {
   const [updatedPost, setUpdatedPost] = useState<Post>(post)
+  const { closeModal } = useModalStore()
+
+  const handleSubmit = () => {
+    onSubmit(updatedPost)
+    setUpdatedPost(post)
+    closeModal()
+  }
 
   return (
     <div className="space-y-4">
@@ -25,7 +33,7 @@ export const PostEditForm = ({ post, onSubmit }: PostEditFormProps) => {
         value={updatedPost?.body || ""}
         onChange={(e) => setUpdatedPost({ ...post, body: e.target.value })}
       />
-      <Button onClick={() => onSubmit(updatedPost)}>게시물 업데이트</Button>
+      <Button onClick={handleSubmit}>게시물 업데이트</Button>
     </div>
   )
 }

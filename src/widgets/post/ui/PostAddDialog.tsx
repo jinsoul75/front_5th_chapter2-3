@@ -15,7 +15,7 @@ export const PostAddDialog = () => {
         <DialogHeader>
           <DialogTitle>새 게시물 추가</DialogTitle>
         </DialogHeader>
-        <PostAddForm onSubmit={addPost} onCancel={closeModal} />
+        <PostAddForm onSubmit={addPost} closeModal={closeModal} />
       </DialogContent>
     </Dialog>
   )

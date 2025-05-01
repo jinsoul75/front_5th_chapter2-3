@@ -74,7 +74,7 @@ export const useAddPost = () => {
         if (data) {
           const updatedData = {
             ...data,
-            posts: [...data.posts, newPost],
+            posts: [newPost, ...data.posts],
             total: data.total + 1,
           }
           queryClient.setQueryData(queryKey, updatedData)
@@ -117,7 +117,22 @@ export const useDeletePost = () => {
 }
 
 export const useUpdatePost = () => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: (post: Post) => postsApi.updatePost(post),
+    onSuccess: (updatedPost) => {
+      const activeQueries = queryClient.getQueriesData<{ posts: Post[]; total: number }>({ queryKey: ["posts"] })
+
+      activeQueries.forEach(([queryKey, data]) => {
+        if (data) {
+          const updatedData = {
+            ...data,
+            posts: data.posts.map((post) => (post.id === updatedPost.id ? updatedPost : post)),
+          }
+          queryClient.setQueryData(queryKey, updatedData)
+        }
+      })
+    },
   })
 }

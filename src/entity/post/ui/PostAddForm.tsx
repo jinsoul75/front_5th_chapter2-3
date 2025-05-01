@@ -8,16 +8,16 @@ import { Input, Textarea, Button } from "@/shared/ui"
 
 interface PostAddFormProps {
   onSubmit: (newPost: NewPost) => void
-  onCancel: () => void
+  closeModal: () => void
 }
 
-export const PostAddForm = ({ onSubmit, onCancel }: PostAddFormProps) => {
+export const PostAddForm = ({ onSubmit, closeModal }: PostAddFormProps) => {
   const [newPost, setNewPost] = useState<NewPost>(INITIAL_POST)
 
   const handleSubmit = () => {
     onSubmit(newPost)
     setNewPost(INITIAL_POST)
-    onCancel()
+    closeModal()
   }
 
   return (
@@ -36,6 +36,7 @@ export const PostAddForm = ({ onSubmit, onCancel }: PostAddFormProps) => {
       <Input
         type="number"
         placeholder="사용자 ID"
+        min={1}
         value={newPost.userId}
         onChange={(e) => setNewPost({ ...newPost, userId: Number(e.target.value) })}
       />
