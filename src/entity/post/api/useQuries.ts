@@ -1,8 +1,11 @@
 import { useQuery, useMutation, useQueries, useQueryClient } from "@tanstack/react-query"
+
 import { postsApi } from "./postApi"
+
 import { NewPost, Post } from "@/entity/post/types/postTypes"
 import { User } from "@/entity/user/types/userTypes"
 import { usersApi } from "@/entity/user/api/userApi"
+
 export const usePosts = ({
   skip,
   limit,
@@ -59,6 +62,7 @@ export const usePosts = ({
       return Promise.all([dataResult.refetch(), userResult.refetch()])
     },
     total: dataResult.data?.total,
+    error: dataResult.error || userResult.error,
   }
 }
 
