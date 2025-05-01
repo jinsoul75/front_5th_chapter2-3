@@ -1,17 +1,17 @@
 import { Plus } from "lucide-react"
 
-import { useModalStore } from "@/shared/store"
 import { MODAL_KEY } from "@/shared/config"
 import { Button } from "@/shared/ui"
+import { useModal } from "@/shared/store/useModal"
 
 export const CommentAddModalButton = ({ postId }: { postId: number }) => {
-  const { openModal } = useModalStore()
+  const { open } = useModal<{ postId: number }>(MODAL_KEY.ADD_COMMENT)
 
   return (
     <Button
       size="sm"
       onClick={() => {
-        openModal(MODAL_KEY.ADD_COMMENT, { postId })
+        open({ postId })
       }}
     >
       <Plus className="w-3 h-3 mr-1" />

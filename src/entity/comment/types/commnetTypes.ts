@@ -8,4 +8,8 @@ export interface Comment {
   likes: number
 }
 
-export type NewComment = Omit<Comment, "id" | "user" | "likes">
+export interface NewComment {
+  body: string
+  userId: number
+  postId: number
+}

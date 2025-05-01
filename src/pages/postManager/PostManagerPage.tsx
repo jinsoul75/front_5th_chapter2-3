@@ -3,6 +3,7 @@ import { CardLayout } from "@/app/layouts/CardLayout"
 import { PostList } from "@/widgets/post/ui/PostList"
 import { PostAddDialog, PostEditDialog, PostDetailDialog } from "@/widgets/post/ui"
 import { UserDetailDialog } from "@/widgets/user/ui/UserDetailDialog"
+import { CommentAddDialog, CommentEditDialog } from "@/widgets/comment/ui"
 
 import { PostHeader } from "@/entity/post/ui/PostHeader"
 
@@ -15,6 +16,8 @@ const PostManagerPage = () => {
       <UserDetailDialog />
       <PostEditDialog />
       <PostDetailDialog />
+      <CommentAddDialog />
+      <CommentEditDialog />
     </CardLayout>
   )
 }

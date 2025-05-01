@@ -11,7 +11,6 @@ interface CommentListProps {
 
 export const Comments = ({ postId, searchQuery }: CommentListProps) => {
   const { isLoading, data: comments, error } = useComments({ postId })
-  console.log("🚀 ~ Comments ~ postId:", postId)
 
   if (isLoading) {
     return <Loading />

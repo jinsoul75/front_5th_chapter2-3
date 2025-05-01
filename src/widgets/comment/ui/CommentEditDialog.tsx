@@ -1,4 +1,3 @@
-import { useUpdateComment } from "@/entity/comment/api/useQuries"
 import { Comment } from "@/entity/comment/types/commnetTypes"
 
 import { MODAL_KEY } from "@/shared/config"
@@ -11,15 +10,13 @@ export const CommentEditDialog = () => {
 
   const selectedComment = props?.comment as Comment
 
-  const { mutate: updateComment } = useUpdateComment()
-
   return (
     <Dialog open={isOpen} onOpenChange={close}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>댓글 수정</DialogTitle>
         </DialogHeader>
-        <CommentEditForm comment={selectedComment} onSubmit={updateComment} />
+        <CommentEditForm comment={selectedComment} closeModal={close} />
       </DialogContent>
     </Dialog>
   )

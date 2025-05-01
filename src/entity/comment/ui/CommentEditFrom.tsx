@@ -3,17 +3,20 @@ import { useState } from "react"
 import { Comment } from "../types/commnetTypes"
 
 import { Button, Textarea } from "@/shared/ui"
+import { useUpdateComment } from "../api/useQuries"
 
 interface CommentEditFormProps {
   comment: Comment
-  onSubmit: (comment: Comment) => void
+  closeModal: () => void
 }
 
-export const CommentEditForm = ({ comment, onSubmit }: CommentEditFormProps) => {
+export const CommentEditForm = ({ comment, closeModal }: CommentEditFormProps) => {
   const [updatedComment, setUpdatedComment] = useState<Comment>(comment)
+  const { mutate: updateComment } = useUpdateComment()
 
   const handleUpdateComment = () => {
-    onSubmit(updatedComment)
+    updateComment(updatedComment)
+    closeModal()
   }
 
   const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

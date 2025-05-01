@@ -34,19 +34,56 @@ export const useLikeComment = () => {
 }
 
 export const useAddComment = () => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: (newComment: NewComment) => commentsApi.addComment(newComment),
+    onSuccess: (newComment) => {
+      const activeQueries = queryClient.getQueriesData<Comment[]>({ queryKey: ["comments"] })
+
+      activeQueries.forEach(([queryKey, data]) => {
+        if (data) {
+          const addLikesNewComment = { ...newComment, likes: 0 }
+
+          queryClient.setQueryData(queryKey, [addLikesNewComment, ...data])
+        }
+      })
+    },
   })
 }
 
 export const useUpdateComment = () => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: (comment: Comment) => commentsApi.updateComment(comment),
+    onSuccess: (updatedComment) => {
+      const activeQueries = queryClient.getQueriesData<Comment[]>({ queryKey: ["comments"] })
+
+      activeQueries.forEach(([queryKey, data]) => {
+        if (data) {
+          const updatedComments = data.map((comment) => (comment.id === updatedComment.id ? updatedComment : comment))
+          queryClient.setQueryData(queryKey, updatedComments)
+        }
+      })
+    },
   })
 }
 
 export const useDeleteComment = () => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: (commentId: number) => commentsApi.deleteComment(commentId),
+    onSuccess: (deletedComment) => {
+      const activeQueries = queryClient.getQueriesData<Comment[]>({ queryKey: ["comments"] })
+
+      activeQueries.forEach(([queryKey, data]) => {
+        if (data) {
+          const updatedComments = data.filter((comment) => comment.id !== deletedComment.id)
+          queryClient.setQueryData(queryKey, updatedComments)
+        }
+      })
+    },
   })
 }

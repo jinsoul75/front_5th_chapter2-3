@@ -7,12 +7,14 @@ import { useAddComment } from "../api/useQuries"
 
 interface CommentAddFormProps {
   postId: number
+  closeModal: () => void
 }
 
-export const CommentAddForm = ({ postId }: CommentAddFormProps) => {
+export const CommentAddForm = ({ postId, closeModal }: CommentAddFormProps) => {
   const [newComment, setNewComment] = useState<NewComment>({
     body: "",
     postId,
+    userId: 1,
   })
 
   const { mutate: addComment } = useAddComment()
@@ -23,6 +25,7 @@ export const CommentAddForm = ({ postId }: CommentAddFormProps) => {
 
   const handleAddComment = () => {
     addComment(newComment)
+    closeModal()
   }
 
   return (
