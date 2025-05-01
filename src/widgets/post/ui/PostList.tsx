@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom"
 import { PostControls } from "./PostControls"
 
 import { SEARCH_PARAMS } from "@/features/post/config/searchParams"
-import { usePostTableActions } from "@/features/post/hooks/usePostTableActions"
 
 import { usePosts, useTags } from "@/entity/post/api/useQuries"
 import { PostTable } from "@/entity/post/ui/PostTable"
@@ -35,8 +34,6 @@ export const PostList = () => {
     refetch: onSearch,
     total,
   } = usePosts({ skip, limit, sortBy, sortOrder, searchQuery, selectedTag })
-
-  const { handleOpenUserModal, handleOpenPostDetail, handleOpenEditDialog, handleDeletePost } = usePostTableActions()
 
   const updateURL = useCallback(() => {
     const params = new URLSearchParams()
@@ -98,16 +95,7 @@ export const PostList = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <PostTable
-          posts={posts}
-          searchQuery={searchQuery}
-          selectedTag={selectedTag}
-          onTagClick={setSelectedTag}
-          onUserClick={handleOpenUserModal}
-          onPostClick={handleOpenPostDetail}
-          onEditClick={handleOpenEditDialog}
-          onDeleteClick={handleDeletePost}
-        />
+        <PostTable posts={posts} searchQuery={searchQuery} selectedTag={selectedTag} onTagClick={setSelectedTag} />
       )}
 
       <Pagination limit={limit} setLimit={setLimit} skip={skip} setSkip={setSkip} total={total || 0} />

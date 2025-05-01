@@ -24,7 +24,7 @@ export const TagFilter = ({ selectedTag, setSelectedTag, tags, updateURL }: TagF
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="all">모든 태그</SelectItem>
-        {tags.map((tag) => (
+        {tags?.map((tag) => (
           <SelectItem key={tag.url} value={tag.slug}>
             {tag.slug}
           </SelectItem>

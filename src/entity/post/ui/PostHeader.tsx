@@ -1,5 +1,4 @@
-import { MODAL_KEY } from "@/shared/config"
-import { AddModalButton } from "@/shared/ui/AddModalButton"
+import { PostAddModalButton } from "@/entity/post/ui/PostAddModalButton"
 
 // 괜히 분리했나? 하지만 CardLayout 재사용을 위해 헤더를 나누었어야했다.
 // 이 헤더는 단순 UI만 보여주지만
@@ -11,7 +10,7 @@ export const PostHeader = () => {
   return (
     <>
       <span>게시물 관리자</span>
-      <AddModalButton modalKey={MODAL_KEY.ADD_POST} label="게시물 추가" />
+      <PostAddModalButton />
     </>
   )
 }
