@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 
 import { PostControls } from "./PostControls"
-import { usePostListState } from "../model/usePostListState"
+import { usePostListState, usePostListData } from "../model"
 
 import { SEARCH_PARAMS } from "@/features/post/config/searchParams"
 
@@ -9,7 +9,6 @@ import { PostTable } from "@/entity/post/ui/PostTable"
 
 import { Loading } from "@/shared/ui/Loading"
 import { Pagination } from "@/shared/ui/Pagination"
-import { usePostListData } from "../model/usePostListData"
 
 export type SetSelectedTag = ({ selectedTag }: { selectedTag: string }) => void
 

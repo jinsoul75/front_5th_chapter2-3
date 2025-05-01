@@ -1,10 +1,7 @@
-import { Post } from "../types/postTypes"
-import { PostTagList } from "./PostTagList"
-import { PostLikes } from "./PostLikes"
-import { PostDetailModalButton } from "./PostDetailModalButton"
-import { PostEditModalButton } from "./PostEditModalButton"
-import { PostDeleteButton } from "../../../features/post/ui/PostDeleteButton"
+import { PostDeleteButton } from "@/features/post/ui/PostDeleteButton"
 
+import { Post } from "@/entity/post/types/postTypes"
+import { PostLikes, PostTagList, PostDetailModalButton, PostEditModalButton } from "@/entity/post/ui"
 import { UserAvatar } from "@/entity/user/ui/UserAvatar"
 
 import { TableCell } from "@/shared/ui"

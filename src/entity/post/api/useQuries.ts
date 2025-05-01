@@ -101,7 +101,7 @@ export const useDeletePost = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (postId: string) => postsApi.deletePost(postId),
+    mutationFn: (postId: number) => postsApi.deletePost(postId),
     onSuccess: (deletedPost) => {
       const activeQueries = queryClient.getQueriesData<{ posts: Post[]; total: number }>({ queryKey: ["posts"] })
 

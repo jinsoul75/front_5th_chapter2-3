@@ -10,5 +10,5 @@ export const SEARCH_PARAMS = {
 export const INITIAL_POST = {
   title: "",
   body: "",
-  userId: 0,
+  userId: 1,
 }

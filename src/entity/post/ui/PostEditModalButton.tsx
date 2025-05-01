@@ -1,8 +1,9 @@
 import { Edit2 } from "lucide-react"
 
-import { Button } from "@/shared/ui"
-import { useModalStore } from "@/shared/store"
 import { Post } from "../types/postTypes"
+
+import { Button } from "@/shared/ui"
+import { useModal } from "@/shared/store/useModal"
 import { MODAL_KEY } from "@/shared/config"
 
 interface PostEditModalButtonProps {
@@ -10,10 +11,10 @@ interface PostEditModalButtonProps {
 }
 
 export const PostEditModalButton = ({ post }: PostEditModalButtonProps) => {
-  const { openModal } = useModalStore()
+  const { open } = useModal<{ post: Post }>(MODAL_KEY.EDIT_POST)
 
   const handleOpenEditDialog = (post: Post) => {
-    openModal(MODAL_KEY.EDIT_POST, { post })
+    open({ post })
   }
 
   return (

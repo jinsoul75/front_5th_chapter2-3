@@ -1,8 +1,8 @@
 import { Comment } from "@/entity/comment/types/commnetTypes"
+import { CommentEditForm } from "@/entity/comment/ui/CommentEditFrom"
 
 import { MODAL_KEY } from "@/shared/config"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui"
-import { CommentEditForm } from "@/entity/comment/ui/CommentEditFrom"
 import { useModal } from "@/shared/store/useModal"
 
 export const CommentEditDialog = () => {

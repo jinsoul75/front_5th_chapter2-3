@@ -1,5 +1,6 @@
-import { highlightText } from "@/shared/utils/highlightText"
 import { Post } from "../types/postTypes"
+
+import { highlightText } from "@/shared/utils/highlightText"
 
 interface PostTagListProps {
   post: Post

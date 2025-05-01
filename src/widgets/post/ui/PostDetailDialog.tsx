@@ -1,6 +1,6 @@
-import { Post } from "@/entity/post/types/postTypes"
-
 import { Comments } from "@/widgets/comment/ui/CommentList"
+
+import { Post } from "@/entity/post/types/postTypes"
 
 import { MODAL_KEY } from "@/shared/config"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui"

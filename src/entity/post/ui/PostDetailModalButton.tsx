@@ -3,18 +3,18 @@ import { MessageSquare } from "lucide-react"
 import { Post } from "../types/postTypes"
 
 import { Button } from "@/shared/ui"
-import { useModalStore } from "@/shared/store"
 import { MODAL_KEY } from "@/shared/config"
+import { useModal } from "@/shared/store/useModal"
 
 interface PostDetailModalButtonProps {
   post: Post
 }
 
 export const PostDetailModalButton = ({ post }: PostDetailModalButtonProps) => {
-  const { openModal } = useModalStore()
+  const { open } = useModal<{ post: Post }>(MODAL_KEY.POST_DETAIL)
 
   const handleOpenPostDetail = (post: Post) => {
-    openModal(MODAL_KEY.POST_DETAIL, { post })
+    open({ post })
   }
 
   return (

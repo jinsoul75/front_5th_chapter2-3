@@ -2,19 +2,19 @@ import { useUserDetail } from "@/entity/user/api/useQuries"
 import { UserDetail } from "@/entity/user/ui/UserDetail"
 
 import { MODAL_KEY } from "@/shared/config"
-import { useModalStore } from "@/shared/store"
+import { useModal } from "@/shared/store/useModal"
 import { DialogContent, DialogHeader, DialogTitle, Dialog } from "@/shared/ui"
 
 // shared와 entity의 조합의 UI -> widget
 export const UserDetailDialog = () => {
-  const { openedModal, closeModal, modalProps } = useModalStore()
+  const { isOpen, props, close } = useModal<{ userId: number }>(MODAL_KEY.USER_DETAIL)
 
-  const userId = modalProps?.userId as number
+  const userId = props?.userId as number
 
   const { data: selectedUser } = useUserDetail({ userId })
 
   return (
-    <Dialog open={openedModal === MODAL_KEY.USER_DETAIL} onOpenChange={closeModal}>
+    <Dialog open={isOpen} onOpenChange={close}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>사용자 정보</DialogTitle>

@@ -1,6 +1,4 @@
-import { usePosts } from "@/entity/post/api/useQuries"
-
-import { useTags } from "@/entity/post/api/useQuries"
+import { usePosts, useTags } from "@/entity/post/api/useQuries"
 
 interface PostListDataParams {
   skip: number

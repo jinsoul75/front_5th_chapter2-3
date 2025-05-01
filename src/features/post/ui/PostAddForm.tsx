@@ -1,11 +1,11 @@
 import { useState } from "react"
 
-import { NewPost } from "../types/postTypes"
-
 import { INITIAL_POST } from "@/features/post/config/searchParams"
 
+import { NewPost } from "@/entity/post/types/postTypes"
+import { useAddPost } from "@/entity/post/api/useQuries"
+
 import { Input, Textarea, Button } from "@/shared/ui"
-import { useAddPost } from "../api/useQuries"
 
 interface PostAddFormProps {
   closeModal: () => void

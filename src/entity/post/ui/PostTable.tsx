@@ -1,6 +1,8 @@
-import { TableBody, Table, TableHeader, TableRow, TableHead } from "@/shared/ui"
 import { Post } from "../types/postTypes"
-import { PostTableContent } from "./PostTableContent"
+
+import { PostTableContent } from "@/entity/post/ui/PostTableContent"
+
+import { TableBody, Table, TableHeader, TableRow, TableHead } from "@/shared/ui"
 
 interface PostTableProps {
   posts: Post[]

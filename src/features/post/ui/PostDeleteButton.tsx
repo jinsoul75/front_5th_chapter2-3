@@ -1,7 +1,7 @@
 import { Trash2 } from "lucide-react"
 
-import { useDeletePost } from "../../../entity/post/api/useQuries"
-import { Post } from "../../../entity/post/types/postTypes"
+import { useDeletePost } from "@/entity/post/api/useQuries"
+import { Post } from "@/entity/post/types/postTypes"
 
 import { Button } from "@/shared/ui"
 
@@ -12,7 +12,7 @@ interface PostDeleteButtonProps {
 export const PostDeleteButton = ({ post }: PostDeleteButtonProps) => {
   const { mutate: deletePost } = useDeletePost()
 
-  const handleDeletePost = (postId: string) => {
+  const handleDeletePost = (postId: number) => {
     deletePost(postId)
   }
   return (

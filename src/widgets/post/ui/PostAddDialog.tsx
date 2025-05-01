@@ -1,4 +1,4 @@
-import { PostAddForm } from "@/entity/post/ui"
+import { PostAddForm } from "@/features/post/ui/PostAddForm"
 
 import { MODAL_KEY } from "@/shared/config"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui"

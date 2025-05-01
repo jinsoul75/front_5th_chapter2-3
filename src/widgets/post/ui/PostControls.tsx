@@ -1,8 +1,8 @@
 import { SetSelectedTag } from "./PostList"
 
-import { Tag } from "@/entity/post/types/postTypes"
-
 import { POST_SORT_OPTIONS, POST_SORT_ORDER_OPTIONS } from "@/features/post/constants/sortOptions"
+
+import { Tag } from "@/entity/post/types/postTypes"
 
 import { SearchInput, SortControls, TagFilter } from "@/shared/ui"
 

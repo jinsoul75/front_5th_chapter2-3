@@ -1,9 +1,9 @@
 import { useState } from "react"
 
-import { Button, Input, Textarea } from "@/shared/ui"
-
 import { Post } from "../types/postTypes"
 import { useUpdatePost } from "../api/useQuries"
+
+import { Button, Input, Textarea } from "@/shared/ui"
 
 interface PostEditFormProps {
   post: Post

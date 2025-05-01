@@ -58,7 +58,7 @@ export const postsApi = {
   },
 
   // 게시물 삭제
-  deletePost: async (id: string) => {
+  deletePost: async (id: number) => {
     try {
       const { data } = await axios.delete(`/api/posts/${id}`)
       return data
